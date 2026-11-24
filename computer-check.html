@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="逐步自我檢查 Windows 電腦安全設定，取得下一步建議。"><title>電腦安全健檢｜安全上網研究室</title><link rel="stylesheet" href="style.css"></head>
+<body><header class="site-header"><a class="brand" href="index.html"><span class="brand-icon">盾</span><span>安全上網研究室<small>網路與資訊安全・生活指南</small></span></a><nav aria-label="主要導覽"><a href="index.html">首頁</a><a href="password.html">密碼防護</a><a href="phishing.html">辨識釣魚</a><a href="privacy.html">隱私安全</a><div class="dropdown"><a href="resources.html">實用資源⌄</a><div class="dropdown-menu"><a href="checklist.html">安全檢查表</a><a class="active" href="computer-check.html">電腦安全健檢</a><a href="resources.html#links">延伸閱讀</a></div></div></nav></header>
+<main class="article check-page"><p class="eyebrow">GUIDED COMPUTER CHECKUP</p><h1>電腦安全健檢</h1><p class="lead">跟著步驟檢查常見的 Windows 安全設定。每一步選擇目前狀況，完成後會整理待處理項目和建議做法。</p>
+<div class="privacy-note"><b>先說明：</b>這是引導式自我檢查，不會掃描你的電腦、讀取檔案或傳送答案。真正的病毒掃描請使用 Windows 安全性中的 Microsoft Defender。</div>
+<section class="wizard" aria-live="polite"><div class="wizard-top"><span id="step-count">步驟 1 / 7</span><div class="progress-track"><div id="progress-fill"></div></div></div><div id="wizard-content"></div><div class="wizard-controls"><button id="back-button" class="secondary-button" type="button">← 上一步</button><button id="next-button" class="button" type="button">下一步 →</button></div></section>
+<div class="emergency"><b>如果懷疑正在遭受攻擊</b><p>若檔案突然被加密、出現勒索訊息，或滑鼠被他人遠端控制，先中斷 Wi-Fi／網路線；不要輸入密碼或付款，並聯絡可信任的資訊人員協助。</p></div>
+<p class="back-link">回到<a href="index.html">首頁</a>，或查看<a href="checklist.html">一般安全檢查表</a>。</p></main>
+<footer><a class="brand footer-brand" href="index.html"><span class="brand-icon">盾</span><span>安全上網研究室<small>認識風險，安心連線。</small></span></a><span>網路與資訊安全課程作業｜413430066 余亭均</span></footer>
+<script>
+const checks=[
+ {title:'Windows 是否已更新？',detail:'開啟「開始」→「設定」→「Windows Update」，按「檢查更新」。安裝完成後依提示重新啟動。',tip:'若是學校或公司管理的電腦，依管理人員的更新規範操作。'},
+ {title:'Microsoft Defender 是否完成掃描？',detail:'在開始功能表搜尋並開啟「Windows 安全性」→「病毒與威脅防護」→「快速掃描」。若發現威脅，依 Windows 安全性提供的隔離或移除指示處理。',tip:'不要因陌生彈出視窗而下載「清毒工具」；請從 Windows 內建的 Windows 安全性開啟掃描。'},
+ {title:'防火牆是否開啟？',detail:'開啟「Windows 安全性」→「防火牆與網路保護」，檢查目前使用中的網路設定檔是否顯示防火牆已開啟。',tip:'若裝置由學校或公司管理，或不確定設定用途，先詢問管理人員，不要關閉防火牆。'},
+ {title:'瀏覽器是否有不認識的擴充功能？',detail:'在 Chrome 或 Edge 的「擴充功能」管理頁查看已安裝項目。檢查是否有你不記得安裝、名稱可疑，或要求不合理權限的項目。',tip:'先確認用途與來源；不要因為不熟悉就刪除工作或學校要求的擴充功能。'},
+ {title:'是否看到可疑程式或異常彈窗？',detail:'回想最近是否出現大量廣告、首頁或搜尋引擎被改、程式自行安裝，或電腦明顯變慢。可在「設定」→「應用程式」→「已安裝的應用程式」檢視近期項目。',tip:'不要手動刪除 Windows 系統資料夾中的檔案。若發現不認識的程式，先記下名稱，再用 Defender 掃描或找可信任的資訊人員確認。'},
+ {title:'重要帳號有沒有異常登入？',detail:'從官方網站或 App 檢查電子郵件、社群與常用服務的登入活動，以及安全通知。不要點通知訊息內的登入連結，請自行開啟官方服務。',tip:'若發現異常，使用可信任且乾淨的裝置更改密碼、登出其他工作階段並開啟多因素驗證。'},
+ {title:'重要檔案有備份嗎？',detail:'確認重要照片、作業與文件有備份到可信任的雲端或外接硬碟。完成備份後，確認檔案可以開啟。',tip:'外接硬碟備份完成後可安全退出並拔除，避免它一直連著電腦。'}
+];
+const answers=Array(checks.length).fill('');let step=0;
+const content=document.getElementById('wizard-content'),count=document.getElementById('step-count'),fill=document.getElementById('progress-fill'),back=document.getElementById('back-button'),next=document.getElementById('next-button');
+function render(){count.textContent=step<checks.length?`步驟 ${step+1} / ${checks.length}`:'檢查結果';fill.style.width=`${Math.min(step,checks.length)/checks.length*100}%`;back.style.visibility=step===0?'hidden':'visible';next.textContent=step===checks.length?'重新檢查 ↻':'下一步 →';
+ if(step<checks.length){const c=checks[step];content.innerHTML=`<p class="step-kicker">檢查項目 ${String(step+1).padStart(2,'0')}</p><h2>${c.title}</h2><p class="step-detail">${c.detail}</p><div class="tip-box"><b>檢查提示</b><br>${c.tip}</div><fieldset class="answer-options"><legend>目前狀況（請先依上方步驟檢查）</legend><label><input type="radio" name="answer" value="ok" ${answers[step]==='ok'?'checked':''}> 已確認安全／已完成</label><label><input type="radio" name="answer" value="issue" ${answers[step]==='issue'?'checked':''}> 發現疑慮／尚未完成</label><label><input type="radio" name="answer" value="unsure" ${answers[step]==='unsure'?'checked':''}> 不確定，稍後確認</label></fieldset>`;
+ content.querySelectorAll('input').forEach(el=>el.addEventListener('change',()=>{answers[step]=el.value;next.disabled=false;}));next.disabled=!answers[step];
+ }else{const pending=answers.map((a,i)=>({a,i})).filter(x=>x.a!=='ok');content.innerHTML=`<p class="step-kicker">自我檢查摘要</p><h2>${pending.length?'有項目需要後續處理':'太好了，這次都已確認'}</h2><p class="step-detail">${pending.length?`有 ${pending.length} 個項目標記為「發現疑慮／尚未完成」或「不確定」。請按清單逐項確認；本結果依你的選擇產生，並非電腦掃描報告。`:'你已將七個項目都標記為已確認安全／已完成。仍建議保持系統更新並定期掃描。'}</p>${pending.length?`<ul class="result-list">${pending.map(({a,i})=>`<li><b>${checks[i].title}</b><br>${a==='issue'?'建議依照該步驟的提示完成處理；若不確定，可找可信任的資訊人員協助。':'建議回到該步驟實際檢查，再決定是否需要處理。'} <button type="button" class="review-step" data-step="${i}">回到此步驟</button></li>`).join('')}</ul>`:''}<div class="note"><b>結果僅供自我檢查</b><br>此頁不會連線掃描或判定電腦是否感染病毒。如有持續異常，請使用 Windows 安全性完整掃描，或聯絡可信任的技術支援。</div>`;content.querySelectorAll('.review-step').forEach(b=>b.addEventListener('click',()=>{step=Number(b.dataset.step);render();}));next.disabled=false;}
+}
+back.addEventListener('click',()=>{if(step>0){step--;render();}});next.addEventListener('click',()=>{if(step===checks.length){answers.fill('');step=0;}else if(answers[step])step++;render();});render();
+</script></body></html>
